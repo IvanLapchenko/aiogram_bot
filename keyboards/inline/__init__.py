@@ -1,1 +1,1 @@
-from .menu import reply_markup
+from .menu import politic_reply_markup, economic_reply_markup

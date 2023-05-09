@@ -3,20 +3,6 @@ from aiogram.dispatcher import FSMContext
 
 from loader import dp
 
-import sys
-sys.path.insert(0, '/bot')
-from bot.keyboards.inline import reply_markup
-
-
-@dp.message_handler(state=None, commands='showbutton')
-async def bot_echo(message: types.Message):
-    await message.answer('This is button', reply_markup=reply_markup)
-
-
-@dp.callback_query_handler(text='button1pressed')
-async def second_step(call: types.CallbackQuery):
-    await call.message.answer("button pressed")
-
 
 # Эхо хендлер, куда летят текстовые сообщения без указанного состояния
 @dp.message_handler(state=None)
