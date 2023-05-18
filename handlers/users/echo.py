@@ -1,7 +1,23 @@
 from aiogram import types
 from aiogram.dispatcher import FSMContext
+from bot.keyboards.default import states_kb
+from bot.states import Lights
 
 from loader import dp
+
+
+@dp.message_handler(commands='traffic_lights_on')
+async def traffic_lights_on(message: types.Message):
+    await Lights.StateOn.set()
+    await message.answer('You turned on traffic lights. Choose the light you want to turn on.',
+                         reply_markup=states_kb.lights_all)
+
+
+@dp.message_handler(text='Red', state=Lights.StateOn)
+async def red_handler(message: types.Message):
+    await Lights.StateRed.set()
+    await message.answer('You turned on red light. Now you can turn yellow on.',
+                         reply_markup=states_kb.yellow_kb)
 
 
 # Эхо хендлер, куда летят текстовые сообщения без указанного состояния
@@ -19,3 +35,5 @@ async def bot_echo_all(message: types.Message, state: FSMContext):
     await message.answer(f"Эхо в состоянии <code>{state}</code>.\n"
                          f"\nСодержание сообщения:\n"
                          f"<code>{message}</code>")
+
+
